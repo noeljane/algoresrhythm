@@ -2,17 +2,6 @@
 //https://www.codewars.com/kata/5616868c81a0f281e500005c/train/javascript
 
 function rank(st, we, n) {
-  // first param: string list of names, 
-  // second param: array of numbers, 
-  // third param: rank
-
-  // To get the value for each participant,
-     // Add the value of the first letter of the first name 
-       // (need to create object to store values a-z)
-     // Add the length of the name
-    // Add the corresponding weight from the next array.      
-  // return the firstname of the participant whose rank n are numbered from 1.
-
   // Error Checks: 
   if (!st) {
     return "No participants"
@@ -33,12 +22,10 @@ function rank(st, we, n) {
     charCode++
   }
 
-  let newParticipantObjectArray = []
-  let participantObject = {}
   //Go through participant array, add participant name and their value with calculation.
+  let newParticipantObjectArray = []
   for( let i = 0; i < participantArray.length; i++) {
       let p = participantArray[i]
-      console.log(p)
       let som = 0
       for (let i = 0; i < p.length; i++) {
         let letter = p[i].toLowerCase()
@@ -46,27 +33,26 @@ function rank(st, we, n) {
         som += value
       }
       let r = we[i]
-      participantObject[p] = (som + p.length) * r
-      newParticipantObjectArray.push(newParticipantObjectArray)
+      let object = {}
+      object[p] = (som + p.length) * r
+      newParticipantObjectArray.push(object)
   }
 
-
-
-  // console.log(newParticipantObjectArray)
-  let sorted = Object.keys(participantObject).sort((a, b) => { 
-    console.log(participantObject[b] - participantObject[a])
-    if (participantObject[b] - participantObject[a] == 0) {
-      console.log(participantObject[a])
-    } else {
-      return participantObject[b] - participantObject[a]
+  //Sort the participants descending by winning numbers/alphabetize
+  let sorted = newParticipantObjectArray.sort((a,b) => {
+    if (Object.values(b)[0] - Object.values(a)[0] === 0) {
+      if (Object.keys(a)[0] < Object.keys(b)[0]) {
+        return -1
+      } else {
+        return 1
+      }
     }
-    
+    return Object.values(b)[0] - Object.values(a)[0]
   })
-  console.log(sorted)
+  //Return the appropriate rank
+  return Object.keys(sorted[n-1])[0]
 
-  return sorted[n-1]
-  
-    
 }
 
 
+console.log(rank("Natalie,Andrew,Michael,Robert,Lily,Emily,Logan,Ava,Sophia,Madison,Mason,Joshua,David", [3,6,1,4,3,3,1,2,4,1,5,5,5], 7)) //should return Emily 
